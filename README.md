@@ -21,7 +21,7 @@ Jeder Nutzer sieht seine eigene Transaktionshistorie.
 Modernes Frontend mit NiceGUI.
 
 ### Tech Stack
-Python 3.11+
+Python 3.12+
 
 NiceGUI (Frontend & Routing)
 
@@ -32,3 +32,20 @@ Alembic (Migrationen)
 UV (ASGI-Server)
 
 pytest (Testing)
+
+# Installation
+
+## Docker
+Use the provided Dockerfile to build the image:
+```bash
+docker build -t matekasse .
+```
+Run the container with:
+```bash
+docker run -d -p 8000:8080 matekasse
+```
+
+or use Docker Compose:
+```bash
+docker-compose up -d
+```

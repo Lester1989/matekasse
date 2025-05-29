@@ -7,4 +7,15 @@ services:
       - "8080:8080"
     environment:
       - PYTHONUNBUFFERED=1
+      - INITIAL_ADMIN_USER=admin@matekasse.de
+      - INITIAL_ADMIN_PASSWORD=admin
+      # Database should be set to a persistent storage inside volume or bind mount
+      - DATABASE_URL=sqlite:///app/data/matekasse.db
+      - LOG_LEVEL=INFO
+    volumes:
+    # Mount the directory for the db
+      - data:/app/data
     restart: unless-stopped
+
+volumes:
+  data:

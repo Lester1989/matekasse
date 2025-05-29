@@ -1,5 +1,6 @@
 # main.py
 import logging
+import os
 from typing import Optional, Generator
 
 from fastapi import Depends
@@ -39,7 +40,10 @@ security = HTTPBasic()
 
 # Logger setup
 logger = logging.getLogger("matekasse")
-logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+if log_level not in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]:
+    log_level = "INFO"
+logging.basicConfig(level=log_level, format="%(asctime)s %(levelname)s %(message)s")
 
 
 # Dependency
@@ -375,11 +379,11 @@ def main() -> None:
     Base.metadata.create_all(bind=engine)
     # Testnutzer/Admin anlegen, falls nicht vorhanden
     with SessionLocal() as db:
-        if not get_user_by_email(db, "admin@matekasse.de"):
-            create_user(db, "admin@matekasse.de", "admin", is_admin=True)
-        if not get_user_by_email(db, "user@matekasse.de"):
-            create_user(db, "user@matekasse.de", "user", is_admin=False)
-    ui.run(storage_secret="YOUR_SECRET_KEY", reload=True)
+        admin_email = os.getenv("INITIAL_ADMIN_USER","admin@matekasse.de")
+        admin_pw = os.getenv("INITIAL_ADMIN_PASSWORD","admin")
+        if not get_user_by_email(db, admin_email):
+            create_user(db, admin_email, admin_pw, is_admin=True)
+    ui.run(storage_secret=os.getenv("STORAGE_KEY","some_string_to_encrypt_some_session_data_could_even_be_random"), reload=True)
 
 
 if __name__ in {"__main__", "__mp_main__"}:
