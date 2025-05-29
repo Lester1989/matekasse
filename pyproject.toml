@@ -1,0 +1,17 @@
+[project]
+name = "matekasse"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "bcrypt>=4.3.0",
+    "nicegui>=2.18.0",
+    "passlib>=1.7.4",
+    "pytest>=8.3.5",
+    "pytest-asyncio>=1.0.0",
+    "sqlalchemy>=2.0.41",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
